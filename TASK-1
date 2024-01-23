@@ -1,0 +1,54 @@
+TODO_FILE = "todo.txt"
+
+def show():
+    """Show the to-do list."""
+    with open(TODO_FILE, "r") as file:
+        tasks = file.readlines()
+        if tasks:
+            for i, task in enumerate(tasks, start=1):
+                print(f"{i}. {task.strip()}")
+        else:
+            print("No tasks in the to-do list.")
+
+def add(task):
+    """Add a new task to the to-do list."""
+    with open(TODO_FILE, "a") as file:
+        file.write(task + "\n")
+    print(f"Task '{task}' added to the to-do list.")
+
+def delete(task_number):
+    """Delete a task from the to-do list."""
+    tasks = []
+    with open(TODO_FILE, "r") as file:
+        tasks = file.readlines()
+
+    if 1 <= task_number <= len(tasks):
+        deleted_task = tasks.pop(task_number - 1)
+        with open(TODO_FILE, "w") as file:
+            file.writelines(tasks)
+        print(f"Task '{deleted_task.strip()}' deleted from the to-do list.")
+    else:
+        print("Invalid task number.")
+
+def update(task_number, new_task):
+    """Update a task in the to-do list."""
+    tasks = []
+    with open(TODO_FILE, "r") as file:
+        tasks = file.readlines()
+
+    if 1 <= task_number <= len(tasks):
+        tasks[task_number - 1] = new_task + "\n"
+        with open(TODO_FILE, "w") as file:
+            file.writelines(tasks)
+        print(f"Task {task_number} updated in the to-do list.")
+    else:
+        print("Invalid task number.")
+
+# Example usage:
+show()
+add("Buy groceries")
+add("Complete homework")
+show()
+delete(1)
+update(1, "Learn Python")
+show()
